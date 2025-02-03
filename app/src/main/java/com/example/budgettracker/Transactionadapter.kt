@@ -1,5 +1,6 @@
 package com.example.budgettracker
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -7,7 +8,7 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 
-class Transactionadapter(private val transactions: ArrayList<Transaction>) :
+class Transactionadapter(private var transactions: List<Transaction>) :
     RecyclerView.Adapter<Transactionadapter.TransactionHolder>() {
 
     class TransactionHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -33,10 +34,21 @@ class Transactionadapter(private val transactions: ArrayList<Transaction>) :
         }
 
         holder.label.text = transaction.label
+
+        holder.itemView.setOnClickListener{
+            val intent = Intent(context, DetailedActivity::class.java)
+            intent.putExtra("transaction", transaction)
+            context.startActivity(intent)
+        }
     }
 
     override fun getItemCount(): Int {
         return transactions.size
+    }
+
+    fun setData(transactions: List<Transaction>){
+        this.transactions = transactions
+        notifyDataSetChanged()
     }
 
 }
